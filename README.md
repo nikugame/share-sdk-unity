@@ -1,4 +1,4 @@
-# NKShareSDK（Unity版）接入文档(ver1.0.1_1214)
+# NKShareSDK（Unity版）接入文档(ver1.0.2_170117)
 NKShareForUnity集成了Android和iOS端的资源，可直接接入Unity
 
 ------
@@ -280,36 +280,60 @@ public static void showShare(String channel)
 说明：使用此方法不用再接入showShare方法了。
 <1>使用游戏包内资源的图片（仅用于Android）
 ```
-public static void showShareWithQRCode(String channel, String url, String uuid, String gameid, int widthPix, int heightPix, int logoId, AndroidJavaObject activity)
+public static void showShareWithQRCode(String channel, String url, String uuid, String gameid, String roleid, String sid, String pid, int widthPix, int heightPix, int logoId, AndroidJavaObject activity)
 ```
 说明：
 | 参数        | 类型   |  说明  |
 | --------   | -----:  | :----:  |
 | channel     | String |   渠道    |
-| url       |   String   |   二维码中链接主地址，http://game.nikugame.com/qrdownload   |
+| url     | String |   二维码中的链接地址    |
 | uuid     | String |   二维码中链接中分享用户id    |
-| gameid     | String |   二维码中链接中分享游戏id    |
+| gid     | String |   二维码中链接中分享游戏id    |
+| sid     | String |   二维码中链接中分享服务器id    |
+| rid     | String |   二维码中链接中分享游戏角色id    |
+| pid     | String |   二维码中链接中分享 id    |
 | widthPix     | int |   分享二维码的宽，单位像素    |
 | heightPix     | int |   分享二维码的高，单位像素    |
 | logoId     | int |   二维码中logo的图片在R.class中的id    |
 | activity     | AndroidJavaObject |   当前的Activity    |
-url、uuid、gameid组成的二维码链接地址形式为：http://game.nikugame.com/qrdownload?uuid=?&gameid=?
 <2>使用资源路径的图片
 ```
-public static void showShareWithQRCode(String channel, String url, String uuid, String gameid, int widthPix, int heightPix, String imagePath, AndroidJavaObject activity)
+public static void showShareWithQRCode(String channel, String url, String uuid, String gameid, String roleid,String sid, String pid, int widthPix, int heightPix, String imagePath, AndroidJavaObject activity)
 ```
 说明：
 | 参数        | 类型   |  说明  |
 | --------   | -----:  | :----:  |
 | channel     | String |   渠道    |
-| url       |   String   |   二维码中链接地址，http://game.nikugame.com/qrdownload   |
+| url     | String |   二维码中的链接地址    |
 | uuid     | String |   分享用户id    |
-| gameid     | String |   分享游戏id    |
+| gid     | String |   二维码中链接中分享游戏id    |
+| sid     | String |   二维码中链接中分享服务器id    |
+| rid     | String |   二维码中链接中分享游戏角色id    |
+| pid     | String |   二维码中链接中分享 id    |
 | widthPix     | int |   分享二维码的宽，单位像素    |
 | heightPix     | int |   分享二维码的高，单位像素    |
 | imagePath     | String |   二维码中logo的图片所在路径    |
 | activity     | AndroidJavaObject |   当前的Activity    |
-url、uuid、gameid组成的二维码链接地址形式为：http://game.nikugame.com/qrdownload?uuid=?&gameid=?
+
+###（10）辅助方法（主要单用）
+*<1>生成二维码是否成功*
+public static bool createQRImage(String uuid, String gid, String sid, String rid, String pid, int widthPix, int heightPix, String imagePath, AndroidJavaObject activity)
+说明：
+| 参数        | 类型   |  说明  |
+| --------   | -----:  | :----:  |
+| uuid     | String |   分享用户id    |
+| gid     | String |   二维码中链接中分享游戏id    |
+| sid     | String |   二维码中链接中分享服务器id    |
+| rid     | String |   二维码中链接中分享游戏角色id    |
+| pid     | String |   二维码中链接中分享 id    |
+| widthPix     | int |   分享二维码的宽，单位像素    |
+| heightPix     | int |   分享二维码的高，单位像素    |
+| imagePath     | String |   二维码中logo的图片所在路径    |
+| activity     | AndroidJavaObject |   当前的Activity    |
+*<2>获取二维码完整路径*
+此路径指向固定路径（根目录下的cache目录），且二维码的名称固定为qr_nikugame.png。用此方法必须先确定createQRImage是否为true，以确保生成二维码图片并存储
+public static String getQRCodePath(AndroidJavaObject activity)
+
 ##4、生命周期
 ```
 public static void onNewIntent(AndroidJavaObject intent)(必接)
@@ -341,3 +365,7 @@ ver1.0.0.1205
 调整二维码的生成时传递的主要信息形式，采用加密以保证数据安全
 ver1.0.0.1214
 更新so文件，修复回调接口错误的问题（由init(AndroidJavaObject activity,，NKShareListener listener)改为init(String channel,，NKShareListener listener)）
+ver1.0.1_1227
+新增单独的生成二维码方法和获取二维码路径的方法，增强灵活性
+ver1.0.2_170117
+调整分享二维码内url的设置，由写死改为可自由设置
