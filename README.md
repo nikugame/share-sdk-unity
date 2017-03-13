@@ -1,4 +1,4 @@
-# NKShareSDK（Unity版）接入文档(ver1.0.2_170117)
+# NKShareSDK（Unity版）接入文档(ver1.0.5_170307)
 NKShareForUnity集成了Android和iOS端的资源，可直接接入Unity
 
 ------
@@ -7,9 +7,9 @@ NKShareForUnity集成了Android和iOS端的资源，可直接接入Unity
 ##2、接入准备
 NKShareSDK集成了QQ、微信、微博的分享，接入需申请这几个平台的参数，分别配置到Android和iOS端。
 ###（1）Android端配置
-####<1>平台参数
+#### <1>平台参数
 修改Android的assets目录下的share.properties文件里的各项参数对应的值即可（勿修改参数名）。
-####<2>AndroidManifest
+#### <2>AndroidManifest
 AndroidManifest中请注意修改或增加以下几项配置：
 #####①包名 package和version：
 ```
@@ -17,18 +17,18 @@ package="com.nkgame.nksdkdemoforunity"
 android:versionCode="1"
 android:versionName="1.0"
 ```
-#####②权限
+##### ②权限
 ```
 <uses-permission android:name=""/>
 ```
-#####③Application属性
+##### ③Application属性
 修改应用图标，对应位置res下的drawable文件夹下的ic_launcher.png
 修改应用名称，对应res/values/strings内的app_name
 ```
 android:icon="@drawable/ic_launcher"
 android:label="@string/app_name"
 ```
-#####③Activity
+##### ③Activity
 **启动Activity**
 修改启动的Activity为游戏的Activity,其他属性按游戏需求修改：
 ```
@@ -84,9 +84,9 @@ android:label="@string/app_name"
 android:launchMode="singleTop"
 android:theme="@android:style/Theme.Translucent" />
 ```
-###（2）iOS端配置
+### （2）iOS端配置
 
-####<1>.导入
+#### <1>.导入
 SystemConfiguration.framework,
 libz.tbd,Foundation.framework,
 libstdc++.6.0.9.tbd,
@@ -100,9 +100,9 @@ CoreText.framework,
 UIKit.framework,
 libsqlite3.0.tbd,
 
-####<2>.加入配置build settings —> other linker flag 增加 -fobjc-arc -ObjC
+#### <2>.加入配置build settings —> other linker flag 增加 -fobjc-arc -ObjC
 
-####<3>.info.plist中加入以下配置信息：(不要和已有配置重复)，然后在对应的URL Schemes中修改对应的appid.(Info -> URL Types )
+#### <3>.info.plist中加入以下配置信息：(不要和已有配置重复)，然后在对应的URL Schemes中修改对应的appid.(Info -> URL Types )
 ````
 <key>LSApplicationQueriesSchemes</key>
 <array>
@@ -170,12 +170,12 @@ libsqlite3.0.tbd,
 
 ```
 
-####<4>.加入调用下列函数中加入[WeiboSDK handleOpenURL:url delegate:[NikuShareSDK instance]];
+#### <4>.加入调用下列函数中加入[WeiboSDK handleOpenURL:url delegate:[NikuShareSDK instance]];
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation;
 - (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url;
 
-####<5>.修改代码中的appID
+#### <5>.修改代码中的appID
 在文件NKShareOCCS.mm中找到c_init方法，修改其中的微博，qq,及微信的appid
 ```
 void c_init(int channel){
@@ -189,7 +189,7 @@ if(channel==SHARECHANNEL_WEIBO){
 }
 ```
 
-##3、SDK接口描述
+## 3、SDK接口描述
 所有的接口均集成在NKShareSDK中，方法均为静态方法，可直接通过类名调用。
 ###（1） 初始化实例
 ```
@@ -200,7 +200,7 @@ public static void init(AndroidJavaObject activity)
 NKShareSDK.init(currentActivity);
 ```
 
-###（2） 初始化渠道（必接）
+### （2） 初始化渠道（必接）
 ```
 public static void init(String channel)
 ```
@@ -216,6 +216,7 @@ public const String NKChannel_Weibo = "Weibo";//微博
 或  public static void init(AndroidJavaObject activity, NKShareListener shareListener)(带监听分享结果）
 ```
 说明：
+
 | 参数        | 类型   |  说明  |适用平台
 | --------   | -----:  | :----:  |:----:  |
 | channel     | string |   渠道    | Android/iOS
@@ -229,11 +230,11 @@ NKShareSDK.init(NKChannel_QQ);
 NKListener对接Android NKShareDK中的NKShareListener，可以实现初始化、分享结果等消息的相互传递，对于信息的处理，请直接在NKShareListener相应的方法内实现（切勿更改类名、方法名称）。
 说明：
 **目前部分渠道在分享后不会返回分享结果，因此可能造成这些渠道无法监听到分享结果，请评估后选择接入。**
-####<1>onInit
+#### <1>onInit
 调用初始化接口后收到此回调 参数说明： errorcode 为0表示成功，-1表示未知错误
-####<2>onResult
+#### <2>onResult
 调用分享接口后收到此回调 参数说明： errorcode 为0表示成功，-1表示未知错误,1表示用户取消
-###（3）设置分享类型（必接）
+### （3）设置分享类型（必接）
 ```
 NKShareSDK.setShareType（int shareType）;
 ```
@@ -249,7 +250,7 @@ public const int NKSHARE_TYPE_MUSIC = 3;//音频
 public const int NKSHARE_TYPE_VIDEO = 4;//视频
 public const int NKSHARE_TYPE_WEBPAGE = 5;//网页
 ```
-###（4）设置标题或名称（必接）
+### （4）设置标题或名称（必接）
 ```
 public static void setTitle(String title)
 ```
@@ -257,7 +258,7 @@ public static void setTitle(String title)
 ```
 NKShareSDK.setTitle("Test");
 ```
-###（5）设置链接地址（必接）
+### （5）设置链接地址（必接）
 ```
 public static void setTargetUrl(String targetUrl)
 ```
@@ -334,7 +335,7 @@ public static bool createQRImage(String uuid, String gid, String sid, String rid
 此路径指向固定路径（根目录下的cache目录），且二维码的名称固定为qr_nikugame.png。用此方法必须先确定createQRImage是否为true，以确保生成二维码图片并存储
 public static String getQRCodePath(AndroidJavaObject activity)
 
-##4、生命周期
+## 4、生命周期（仅限Android）
 ```
 public static void onNewIntent(AndroidJavaObject intent)(必接)
 
@@ -354,7 +355,7 @@ public static void onRestart()
 
 public static void onActivityResult(int requestCode, int resultCode, AndroidJavaObject data)
 ```
-##5、版本更新说明
+## 5、版本更新说明
 ver1.0.0.1121
 首个ShareSDK版本，增加了QQ、微信、微博渠道的分享，及分享结果的接口
 ver1.0.0.1128
@@ -369,3 +370,5 @@ ver1.0.1_1227
 新增单独的生成二维码方法和获取二维码路径的方法，增强灵活性
 ver1.0.2_170117
 调整分享二维码内url的设置，由写死改为可自由设置
+ver1.0.5_170307
+更新性能
