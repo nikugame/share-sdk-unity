@@ -284,6 +284,7 @@ public static void showShare(String channel)
 public static void showShareWithQRCode(String channel, String url, String uuid, String gameid, String roleid, String sid, String pid, int widthPix, int heightPix, int logoId, AndroidJavaObject activity)
 ```
 说明：
+
 | 参数        | 类型   |  说明  
 | --------   | -----:  | :----:  |
 | channel     | String |   渠道    
@@ -302,7 +303,8 @@ public static void showShareWithQRCode(String channel, String url, String uuid, 
 public static void showShareWithQRCode(String channel, String url, String uuid, String gameid, String roleid,String sid, String pid, int widthPix, int heightPix, String imagePath, AndroidJavaObject activity)
 ```
 说明：
-| 参数        | 类型   |  说明  
+
+| 参数        | 类型   |  说明
 | --------   | -----:  | :----:  |
 | channel     | String |   渠道   
 | url     | String |   二维码中的链接地址    
@@ -357,18 +359,33 @@ public static void onActivityResult(int requestCode, int resultCode, AndroidJava
 ```
 ## 5、版本更新说明
 ver1.0.0.1121
+
 首个ShareSDK版本，增加了QQ、微信、微博渠道的分享，及分享结果的接口
+
 ver1.0.0.1128
+
 新增生成二维码并分享接口，新增微信分享图片处理方法，新增生命周期
+
 ver1.0.0.1129
+
 调整类名规则，防止与其他SDK产生混淆
+
 ver1.0.0.1205
+
 调整二维码的生成时传递的主要信息形式，采用加密以保证数据安全
+
 ver1.0.0.1214
+
 更新so文件，修复回调接口错误的问题（由init(AndroidJavaObject activity,，NKShareListener listener)改为init(String channel,，NKShareListener listener)）
+
 ver1.0.1_1227
+
 新增单独的生成二维码方法和获取二维码路径的方法，增强灵活性
+
 ver1.0.2_170117
+
 调整分享二维码内url的设置，由写死改为可自由设置
+
 ver1.0.5_170307
+
 更新性能
